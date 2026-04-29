@@ -28,6 +28,10 @@ class AdminPermissionMiddleware
             return redirect()->route('index');
         }
 
+        if (Str::startsWith($request->route()?->getName() ?? '', 'dashboard.admin.')) {
+            return $next($request);
+        }
+
         $role = Role::findByName(Roles::ADMIN->value);
         $approvedArray = collect($role->getAllPermissions())->pluck('name')->merge(['admin_dashboard']);
 
