@@ -208,7 +208,6 @@
         fetch('/dashboard/user/openai/generator/check/status')
             .then(response => response.json())
             .then(data => {
-                // console.log(data);
                 if(data.data) {
                     for (const [id, item] of Object.entries(data.data)) {
                         let imgElement = document.getElementById(item.imgId);

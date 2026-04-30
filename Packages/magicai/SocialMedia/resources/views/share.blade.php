@@ -109,7 +109,6 @@
                     }
                 },
                 error: function(error) {
-                    // console.log(error);
                     toastr.error(error.responseJSON.message);
 
                 }
