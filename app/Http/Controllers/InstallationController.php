@@ -232,7 +232,14 @@ class InstallationController extends Controller
         }
 
         try {
-            $data = $this->themeService->install($slug);
+            // Check if it's a local theme
+            $localThemes = $this->getLocalThemes();
+            if (in_array($slug, array_column($localThemes, 'slug'))) {
+                // Activate local theme
+                $data = $this->activateLocalTheme($slug);
+            } else {
+                $data = $this->themeService->install($slug);
+            }
 
             if ($data['status']) {
                 return redirect()->back()
@@ -254,6 +261,40 @@ class InstallationController extends Controller
                     500
                 );
         }
+    }
+
+    private function getLocalThemes(): array
+    {
+        $themePath = base_path('MagicAI Extensions and Themes/themes');
+        $themes = [];
+
+        if (is_dir($themePath)) {
+            $dirs = array_filter(scandir($themePath), function($dir) use ($themePath) {
+                return is_dir($themePath . '/' . $dir) && !in_array($dir, ['.', '..']) && $dir !== 'Download More Templates.html';
+            });
+
+            foreach ($dirs as $dir) {
+                $themes[] = ['slug' => $dir];
+            }
+        }
+
+        return $themes;
+    }
+
+    private function activateLocalTheme(string $slug): array
+    {
+        setting([
+            'front_theme' => $slug,
+            'dash_theme'  => $slug,
+        ])->save();
+
+        Artisan::call('optimize:clear');
+
+        return [
+            'success' => true,
+            'status'  => true,
+            'message' => trans('Theme activated successfully'),
+        ];
     }
 
     public function installExtension($slug)

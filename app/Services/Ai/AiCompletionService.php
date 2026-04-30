@@ -7,6 +7,7 @@ namespace App\Services\Ai;
 use App\Domains\Engine\Enums\EngineEnum;
 use App\Domains\Engine\Services\AnthropicService;
 use App\Domains\Engine\Services\GeminiService;
+use App\Domains\Engine\Services\OllamaService;
 use App\Helpers\Classes\ApiHelper;
 use App\Helpers\Classes\Helper;
 use GuzzleHttp\Client;
@@ -29,6 +30,7 @@ class AiCompletionService
             EngineEnum::GEMINI    => $this->viaGemini($systemPrompt, $userContent, $engine),
             EngineEnum::DEEP_SEEK => $this->viaDeepSeek($systemPrompt, $userContent, $engine),
             EngineEnum::X_AI      => $this->viaXAi($systemPrompt, $userContent, $engine),
+            EngineEnum::OLLAMA    => $this->viaOllama($systemPrompt, $userContent),
             default               => $this->viaOpenAi($systemPrompt, $userContent),
         };
     }
@@ -51,6 +53,22 @@ class AiCompletionService
             ->flatMap(fn ($item) => $item['content'] ?? [])
             ->pluck('text')
             ->implode('');
+    }
+
+    private function viaOllama(string $systemPrompt, string $userContent): string
+    {
+        $client = app(OllamaService::class);
+
+        $response = $client
+            ->withSystem($systemPrompt)
+            ->withMessages([
+                ['role' => 'user', 'content' => $userContent],
+            ])
+            ->stream();
+
+        $body = $response->json();
+
+        return $body['message']['content'] ?? '';
     }
 
     private function viaAnthropic(string $systemPrompt, string $userContent): string

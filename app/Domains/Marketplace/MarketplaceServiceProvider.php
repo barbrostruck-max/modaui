@@ -97,6 +97,7 @@ use App\Extensions\SpeechifyTTS\System\SpeechifyServiceProvider;
 use App\Extensions\UrlToVideo\System\UrlToVideoServiceProvider;
 use App\Extensions\Wordpress\System\WordpressServiceProvider;
 use App\Extensions\Xero\System\XeroServiceProvider;
+use App\Packages\Ollama\System\OllamaServiceProvider;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -198,6 +199,7 @@ class MarketplaceServiceProvider extends ServiceProvider
         'see-dream-v4'                  => SeeDreamV4ServiceProvider::class,
         'ai-presentation'               => AiPresentationServiceProvider::class,
         'ai-image-pro'                  => AIImageProServiceProvider::class,
+        'ollama'                        => OllamaServiceProvider::class,
         'ai-chat-pro-image-chat'        => AiChatProImageChatServiceProvider::class,
         'ai-chat-pro-folders'           => AIChatProFoldersServiceProvider::class,
         'ai-chat-pro-memory'            => AIChatProMemoryServiceProvider::class,

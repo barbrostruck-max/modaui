@@ -19,6 +19,7 @@ use App\Domains\Engine\Drivers\GoogleEngineDriver;
 use App\Domains\Engine\Drivers\HeygenEngineDriver;
 use App\Domains\Engine\Drivers\KlapEngineDriver;
 use App\Domains\Engine\Drivers\NovitaEngineDriver;
+use App\Domains\Engine\Drivers\OllamaEngineDriver;
 use App\Domains\Engine\Drivers\OpenAIEngineDriver;
 use App\Domains\Engine\Drivers\OpenRouterEngineDriver;
 use App\Domains\Engine\Drivers\PebblelyEngineDriver;
@@ -114,6 +115,8 @@ enum EngineEnum: string implements Contracts\WithStringBackedEnum
     case VIZARD = 'vizard';
     case KLAP = 'klap';
 
+    case OLLAMA = 'ollama';
+
     public function label(): string
     {
         return match ($this) {
@@ -149,6 +152,7 @@ enum EngineEnum: string implements Contracts\WithStringBackedEnum
             self::TOPVIEW                => __('Topview'),
             self::VIZARD                 => __('Vizard'),
             self::KLAP                   => __('Klap'),
+            self::OLLAMA                 => __('Ollama (Local)'),
         };
     }
 
@@ -183,6 +187,7 @@ enum EngineEnum: string implements Contracts\WithStringBackedEnum
             self::TOPVIEW          => TopviewEngineDriver::class,
             self::VIZARD           => VizardEngineDriver::class,
             self::KLAP             => KlapEngineDriver::class,
+            self::OLLAMA           => OllamaEngineDriver::class,
             self::X_AI             => XAIEngineDriver::class,
             self::AI_ML_MINIMAX    => AiMlMinimaxAIEngineDriver::class,
             self::OPEN_ROUTER      => OpenRouterEngineDriver::class,
