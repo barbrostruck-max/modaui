@@ -16,35 +16,35 @@
 		},
 		{
 			"type": "path",
-			"url": "./packages/magicai/magicai-updater",
+			"url": "./Packages/magicai/magicai-updater",
 			"options": {
 				"symlink": false
 			}
 		},
 		{
 			"type": "path",
-			"url": "./packages/magicai/magicai-healthy",
+			"url": "./Packages/magicai/magicai-healthy",
 			"options": {
 				"symlink": false
 			}
 		},
 		{
 			"type": "path",
-			"url": "./packages/rachidlaasri/laravel-installer",
+			"url": "./Packages/rachidlaasri/laravel-installer",
 			"options": {
 				"symlink": false
 			}
 		},
 		{
 			"type": "path",
-			"url": "./packages/openai-php/laravel",
+			"url": "./Packages/openai-php/laravel",
 			"options": {
 				"symlink": false
 			}
 		},
 		{
 			"type": "path",
-			"url": "./packages/openai-php/client",
+			"url": "./Packages/openai-php/client",
 			"options": {
 				"symlink": false
 			}
@@ -150,6 +150,10 @@
 	"autoload": {
 		"psr-4": {
 			"App\\": "app/",
+			"modaui\\Healthy\\": "Packages/magicai/magicai-healthy/src/",
+			"modaui\\Updater\\": "Packages/magicai/magicai-updater/src/",
+			"OpenAI\\": "Packages/openai-php/client/src/",
+			"OpenAI\\Laravel\\": "Packages/openai-php/laravel/src/",
 			"Database\\Factories\\": "database/factories/",
 			"Database\\Seeders\\": "database/seeders/",
 			"Database\\Helpers\\": "database/helpers/"

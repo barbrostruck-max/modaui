@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             PermissionSeeder::class,
             AdminPermissionSeeder::class,
+            ExtensionSeeder::class,
         ]);
 
         $this->command->info('Currency table seeded!');

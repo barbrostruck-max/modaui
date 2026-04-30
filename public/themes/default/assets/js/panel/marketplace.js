@@ -1,7 +1,8 @@
 $(document).ready(function () {
 	'use strict';
 
-	var addonFilter = 'All';
+	var addonFilter = 'Installed';
+	var categoryFilter = 'All';
 	var strFilter = '';
 	var isInstalling = false;
 
@@ -24,29 +25,37 @@ $(document).ready(function () {
 
 	function updateList() {
 		$('.lqd-extension').each((index, element) => {
+			var show = true;
+
 			if (addonFilter == 'All') {
-				$(element).removeClass('hidden');
+				// show all
 			} else if (addonFilter == 'Installed') {
-				if ($(element).attr('data-installed') == '1') {
-					$(element).removeClass('hidden');
-				} else {
-					$(element).addClass('hidden');
+				if ($(element).attr('data-installed') != '1') {
+					show = false;
 				}
 			} else if (addonFilter == 'Free') {
-				if ($(element).attr('data-price') == '0') {
-					$(element).removeClass('hidden');
-				} else {
-					$(element).addClass('hidden');
+				if ($(element).attr('data-price') != '0') {
+					show = false;
 				}
 			} else if (addonFilter == 'Paid') {
-				if ($(element).attr('data-price') != '0') {
-					$(element).removeClass('hidden');
-				} else {
-					$(element).addClass('hidden');
+				if ($(element).attr('data-price') == '0') {
+					show = false;
+				}
+			}
+
+			if (categoryFilter != 'All') {
+				if ($(element).attr('data-category') != categoryFilter) {
+					show = false;
 				}
 			}
 
 			if (!$(element).attr('data-name').toLowerCase().includes(strFilter)) {
+				show = false;
+			}
+
+			if (show) {
+				$(element).removeClass('hidden');
+			} else {
 				$(element).addClass('hidden');
 			}
 		});
@@ -57,6 +66,14 @@ $(document).ready(function () {
 		$(this).addClass('active');
 		var filter = $(this).attr('data-filter');
 		addonFilter = filter;
+		updateList();
+	});
+
+	$('.category_filter').on('click', function () {
+		$('.category_filter').removeClass('active');
+		$(this).addClass('active');
+		var category = $(this).attr('data-category');
+		categoryFilter = category;
 		updateList();
 	});
 
